@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Hernandez Castillo — Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #161210;
+      --bg2:       #1E1814;
+      --bg3:       #252018;
+      --amber:     #F5A623;
+      --amber-dim: #F5A62318;
+      --amber-soft:#E8936A;
+      --cream:     #F2EDE8;
+      --muted:     #9B8E84;
+      --border:    #2E2620;
+      --border2:   #3A3028;
+      --serif:     'Playfair Display', serif;
+      --sans:      'DM Sans', sans-serif;
+      --mono:      'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--sans);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(22,18,16,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--cream);
+      letter-spacing: 0.01em;
+      font-weight: 600;
+    }
+    .nav-logo span { color: var(--amber); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--serif);
+      font-size: clamp(8rem, 18vw, 18rem);
+      font-weight: 700;
+      color: var(--border2);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 680px;
+    }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow-line {
+      width: 32px; height: 1px;
+      background: var(--amber);
+    }
+    .hero-eyebrow-text {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: var(--cream);
+    }
+    .hero-name .accent { color: var(--amber); }
+
+    .hero-title {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-desc strong { color: var(--cream); font-weight: 500; }
+
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+    .chip {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      background: var(--bg2);
+      letter-spacing: 0.02em;
+      transition: all 0.2s;
+    }
+    .chip:hover { border-color: var(--amber); color: var(--amber); }
+    .chip.hot { border-color: var(--amber); color: var(--amber); background: var(--amber-dim); }
+
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: var(--bg);
+      border: none;
+    }
+    .btn-primary:hover { background: #F7B840; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.25); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid var(--border2);
+    }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-indicator {
+      position: absolute; bottom: 2.5rem; left: 3rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--amber), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    .scroll-text {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 3rem; }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    .section-eyebrow {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .section-eyebrow-line { width: 24px; height: 1px; background: var(--amber); }
+    .section-eyebrow-text {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 3.5rem;
+      line-height: 1.2;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+      font-size: 0.98rem;
+    }
+    .about-text strong { color: var(--cream); font-weight: 500; }
+    .about-text a { color: var(--amber); text-decoration: none; }
+
+    .stat-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .stat-item {
+      padding: 1.5rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      border-left: 3px solid var(--amber);
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── SKILLS ── */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-category {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-category:hover {
+      border-color: var(--amber);
+      transform: translateY(-3px);
+    }
+    .skill-cat-header {
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .skill-cat-icon { font-size: 1.1rem; }
+    .skill-cat-name {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .skill-items { display: flex; flex-direction: column; gap: 0.65rem; }
+    .skill-row {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .skill-name { font-size: 0.88rem; color: var(--cream); }
+    .skill-bar-wrap {
+      width: 80px; height: 3px;
+      background: var(--border2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--amber-soft));
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg2); }
+    .projects-layout { display: flex; flex-direction: column; gap: 2rem; }
+    .project-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(to bottom, var(--amber), var(--amber-soft));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .project-card:hover { border-color: var(--border2); transform: translateX(4px); }
+    .project-card:hover::after { opacity: 1; }
+
+    .project-num {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--border2);
+      line-height: 1;
+      min-width: 60px;
+      padding-top: 0.2rem;
+    }
+    .project-body {}
+    .project-meta {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .project-name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .project-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+    }
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+      list-style: none;
+    }
+    .project-desc li {
+      padding-left: 1rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+    .project-desc li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--amber);
+      font-size: 0.75rem;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .stack-tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.65rem;
+      background: var(--amber-dim);
+      border: 1px solid rgba(245,166,35,0.25);
+      border-radius: 4px;
+      color: var(--amber);
+    }
+
+    /* ── CERTS ── */
+    .certs-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .cert-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .cert-card:hover { border-color: var(--amber); transform: translateY(-2px); }
+    .cert-icon-wrap {
+      width: 44px; height: 44px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .cert-name { font-size: 0.9rem; font-weight: 500; color: var(--cream); margin-bottom: 0.25rem; line-height: 1.3; }
+    .cert-issuer { font-family: var(--mono); font-size: 0.68rem; color: var(--amber); margin-bottom: 0.15rem; }
+    .cert-year { font-size: 0.72rem; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg2); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-intro {
+      font-size: 0.98rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+      font-family: var(--mono);
+    }
+    .contact-link:hover { border-color: var(--amber); color: var(--amber); background: var(--amber-dim); }
+    .contact-link-icon { font-size: 1rem; flex-shrink: 0; }
+
+    .contact-aside {}
+    .availability-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .availability-dot {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: #4ADE80;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .availability-dot::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: #4ADE80;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #4ADE8066;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .availability-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .availability-sub { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-name {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--border2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .project-card { grid-template-columns: 1fr; gap: 0.5rem; }
+      .project-num { font-size: 1.8rem; }
+      .hero-bg-text { display: none; }
+      footer { padding: 1.5rem; }
+      .scroll-indicator { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { opacity: 1; transform: none; }
+      .scroll-line { animation: none; }
+      .availability-dot::before { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Daniel <span>HC</span></span>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-text">DEV</div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Full Stack Developer · Cybersecurity</span>
+    </div>
+
+    <h1 class="hero-name">
+      Daniel<br>
+      <span class="accent">Hernandez</span><br>
+      Castillo
+    </h1>
+
+    <p class="hero-title">Ingeniero en Desarrollo y Tecnología de Software · UNACH 2026</p>
+
+    <p class="hero-desc">
+      Construyo sistemas web <strong>seguros y escalables</strong> — desde APIs RESTful hasta infraestructura cloud en AWS. Mi diferenciador es la <strong>ciberseguridad aplicada</strong>: OWASP, DevSecOps y arquitecturas pensadas para resistir desde el diseño.
+    </p>
+
+    <div class="hero-chips">
+      <span class="chip hot">Python</span>
+      <span class="chip hot">Node.js</span>
+      <span class="chip hot">FastAPI</span>
+      <span class="chip hot">AWS</span>
+      <span class="chip">Vue.js 3</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">Docker</span>
+      <span class="chip">OWASP</span>
+      <span class="chip">Linux</span>
+    </div>
+
+    <div class="cta-row">
+      <a href="#projects" class="btn btn-primary">Ver proyectos →</a>
+      <a href="#contact" class="btn btn-ghost">Contacto</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span class="section-eyebrow-text">Sobre mí</span>
+    </div>
+    <h2 class="section-title">¿Quién soy?</h2>
+
+    <div class="about-layout">
+      <div class="about-text fade-in">
+        <p>Soy egresado de <strong>Ingeniería en Desarrollo y Tecnología de Software</strong> por la Universidad Autónoma de Chiapas (UNACH, generación 2026). Me especializo en desarrollo full-stack con un enfoque diferenciador en seguridad aplicada.</p>
+        <p>Diseño e implemento sistemas web completos — desde la arquitectura de base de datos hasta el despliegue en infraestructura segura en AWS. No solo construyo software que funcione, sino software que sea difícil de comprometer.</p>
+        <p>Basado en <strong>Tuxtla Gutiérrez, Chiapas</strong>, con disponibilidad para reubicación y abierto a trabajo presencial, híbrido o 100% remoto en cualquier parte del mundo.</p>
+        <p>Portafolio: <a href="https://DanCastl3.github.io" target="_blank">DanCastl3.github.io</a></p>
+      </div>
+
+      <div class="stat-list fade-in">
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Proyectos independientes end-to-end</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Certificaciones técnicas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">AWS</div>
+          <div class="stat-label">Cloud Security certified</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Tecnologías en stack activo</div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span class="section-eyebrow-text">Habilidades</span>
+    </div>
+    <h2 class="section-title">Stack técnico</h2>
+
+    <div class="skills-layout">
+
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <span class="skill-cat-icon" style="color:#F5A623;font-size:1rem;">{ }</span>
+          <span class="skill-cat-name">Backend</span>
+        </div>
+        <div class="skill-items">
+          <div class="skill-row"><span class="skill-name">Python / FastAPI</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Node.js / Express</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Flask</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">REST APIs</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">SQLAlchemy</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <span class="skill-cat-icon" style="color:#F5A623;font-size:1rem;">◻</span>
+          <span class="skill-cat-name">Frontend</span>
+        </div>
+        <div class="skill-items">
+          <div class="skill-row"><span class="skill-name">Vue.js 3</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">JavaScript ES6+</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">TypeScript</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:65%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">HTML5 / CSS3</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <span class="skill-cat-icon" style="color:#F5A623;font-size:1rem;">⊞</span>
+          <span class="skill-cat-name">Bases de datos</span>
+        </div>
+        <div class="skill-items">
+          <div class="skill-row"><span class="skill-name">MySQL</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">PostgreSQL</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">SQL avanzado</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <span class="skill-cat-icon" style="color:#F5A623;font-size:1rem;">△</span>
+          <span class="skill-cat-name">Cloud & DevOps</span>
+        </div>
+        <div class="skill-items">
+          <div class="skill-row"><span class="skill-name">AWS (EC2, VPC, WAF, ALB)</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Docker</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">GitHub Actions / CI/CD</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Linux / Nginx</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <span class="skill-cat-icon" style="color:#F5A623;font-size:1rem;">◈</span>
+          <span class="skill-cat-name">Seguridad</span>
+        </div>
+        <div class="skill-items">
+          <div class="skill-row"><span class="skill-name">OWASP Top 10</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Snort IDS</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Fail2Ban / UFW</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">JWT / JWE / bcrypt</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">ModSecurity</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <span class="skill-cat-icon" style="color:#F5A623;font-size:1rem;">✦</span>
+          <span class="skill-cat-name">Herramientas</span>
+        </div>
+        <div class="skill-items">
+          <div class="skill-row"><span class="skill-name">Git / GitHub</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Jest / Pytest</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Scrum / Kanban</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Cisco CCNA</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div></div>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span class="section-eyebrow-text">Proyectos</span>
+    </div>
+    <h2 class="section-title">Lo que he construido</h2>
+
+    <div class="projects-layout">
+
+      <div class="project-card fade-in">
+        <div class="project-num">01</div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-name">Sistema de Gestión de Aprendizaje Seguro (LMS)</span>
+            <span class="project-date">Nov 2025</span>
+          </div>
+          <ul class="project-desc">
+            <li>Plataforma académica full-stack con 3 roles (Admin, Profesor, Alumno), API RESTful con +25 endpoints en Express.js y auditoría completa en MySQL con triggers por INSERT, UPDATE y DELETE.</li>
+            <li>Seguridad en capas: tokens JWE cifrados, bcrypt, rate limiting (10 intentos/15 min), Google reCaptcha v2 y bloqueo gradual de cuentas.</li>
+            <li>Gestión de archivos con Multer, prevención de path traversal, respaldos automáticos vía mysqldump y pipeline CI/CD con GitHub Actions.</li>
+          </ul>
+          <div class="project-stack">
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">Express.js</span>
+            <span class="stack-tag">MySQL</span>
+            <span class="stack-tag">JWE</span>
+            <span class="stack-tag">bcrypt</span>
+            <span class="stack-tag">Docker</span>
+            <span class="stack-tag">GitHub Actions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">02</div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-name">Plataforma Banco de Sangre en AWS</span>
+            <span class="project-date">Mar 2026</span>
+          </div>
+          <ul class="project-desc">
+            <li>Arquitectura multicapa en 3 instancias EC2 aisladas (SPA Vue.js 3 + FastAPI + PostgreSQL) dentro de una VPC con subredes públicas y privadas; mínimo privilegio en Security Groups.</li>
+            <li>Protección DevSecOps: AWS WAF con reglas OWASP Top 10, Application Load Balancer, Fail2Ban, HTTPS con Let's Encrypt y ModSecurity en Nginx.</li>
+          </ul>
+          <div class="project-stack">
+            <span class="stack-tag">AWS VPC</span>
+            <span class="stack-tag">EC2</span>
+            <span class="stack-tag">WAF</span>
+            <span class="stack-tag">ALB</span>
+            <span class="stack-tag">FastAPI</span>
+            <span class="stack-tag">Vue.js 3</span>
+            <span class="stack-tag">PostgreSQL</span>
+            <span class="stack-tag">Nginx</span>
+            <span class="stack-tag">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">03</div>
+        <div class="project-body">
+          <div class="project-meta">
+            <span class="project-name">Bot de Alertas de Intrusión — Snort + Telegram</span>
+            <span class="project-date">May 2026</span>
+          </div>
+          <ul class="project-desc">
+            <li>Sistema de monitoreo en tiempo real que integra Snort IDS con Telegram API, logrando latencia de notificación menor a 2 segundos ante intentos de intrusión detectados.</li>
+            <li>Desplegado en Linux con reglas de detección personalizadas y cobertura de pruebas unitarias con Pytest para módulos de parseo y alertas.</li>
+          </ul>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Snort IDS</span>
+            <span class="stack-tag">Telegram API</span>
+            <span class="stack-tag">Linux</span>
+            <span class="stack-tag">Pytest</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="container">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span class="section-eyebrow-text">Certificaciones</span>
+    </div>
+    <h2 class="section-title">Credenciales</h2>
+
+    <div class="certs-layout">
+      <div class="cert-card fade-in">
+        <div class="cert-icon-wrap"><svg viewBox="0 0 24 24" width="22" height="22" fill="#F5A623"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.072.056.144.056.208 0 .088-.056.176-.176.264l-.584.392c-.08.056-.16.08-.232.08-.088 0-.176-.04-.264-.112a2.73 2.73 0 0 1-.312-.408 6.74 6.74 0 0 1-.272-.512c-.68.8-1.536 1.2-2.568 1.2-.736 0-1.32-.208-1.744-.624-.424-.416-.64-.976-.64-1.68 0-.744.264-1.344.8-1.8.536-.456 1.248-.68 2.152-.68.296 0 .608.024.936.064.328.04.664.104 1.016.176v-.648c0-.672-.144-1.144-.424-1.416-.288-.28-.776-.416-1.472-.416-.32 0-.648.04-.984.12s-.664.184-.984.32a2.616 2.616 0 0 1-.32.12.56.56 0 0 1-.144.024c-.128 0-.192-.088-.192-.272v-.432c0-.144.016-.248.056-.312a.59.59 0 0 1 .224-.192c.32-.168.704-.304 1.152-.416a5.63 5.63 0 0 1 1.44-.168c1.096 0 1.896.248 2.408.744.504.496.76 1.248.76 2.256v2.968zm-3.544 1.328c.288 0 .584-.056.896-.168.312-.112.592-.312.824-.592.136-.168.24-.352.288-.56.048-.208.08-.456.08-.744v-.36a7.328 7.328 0 0 0-.8-.152 6.54 6.54 0 0 0-.816-.056c-.584 0-1.008.112-1.296.344-.288.232-.424.56-.424.984 0 .4.104.704.32.912.208.2.504.392.928.392zm7.008.936c-.16 0-.264-.024-.336-.08-.072-.048-.136-.16-.192-.312L7.48 5.48a1.4 1.4 0 0 1-.072-.32c0-.128.064-.2.192-.2h.784c.168 0 .28.024.344.08.072.048.128.16.184.312l1.6 6.312 1.488-6.312c.048-.16.104-.264.176-.312.072-.048.192-.08.352-.08h.64c.168 0 .28.032.352.08.072.048.136.16.176.312l1.504 6.392 1.648-6.392c.056-.16.12-.264.184-.312.072-.048.184-.08.344-.08h.744c.128 0 .2.064.2.2 0 .04-.008.08-.016.128a1.27 1.27 0 0 1-.056.2l-2.304 6.424c-.056.16-.12.264-.192.312-.072.048-.184.08-.336.08h-.688c-.168 0-.28-.032-.352-.08-.072-.056-.136-.16-.176-.32L12.56 6.04l-1.472 5.848c-.04.16-.104.264-.176.32-.072.056-.192.08-.352.08h-.688zm12.296.28c-.44 0-.88-.048-1.304-.152-.424-.104-.752-.216-.976-.344-.136-.08-.224-.168-.256-.248a.632.632 0 0 1-.048-.248v-.448c0-.184.072-.272.208-.272.056 0 .112.008.168.024.056.016.136.056.224.096.304.136.632.24.984.312.36.072.712.112 1.072.112.568 0 1.008-.096 1.312-.296.304-.2.464-.48.464-.832 0-.248-.08-.448-.24-.616-.16-.168-.464-.32-.904-.464l-1.296-.4c-.656-.208-1.144-.504-1.448-.896-.304-.384-.456-.808-.456-1.272 0-.368.08-.696.24-.976.16-.28.376-.52.648-.712.272-.192.576-.336.928-.432.352-.096.72-.144 1.104-.144.192 0 .392.008.584.04.2.024.384.064.568.104.176.04.344.088.504.144.16.056.288.112.384.168.128.08.224.16.272.248.048.08.072.184.072.312v.416c0 .184-.072.28-.208.28-.072 0-.184-.04-.328-.112-.44-.2-.936-.296-1.488-.296-.512 0-.912.08-1.192.248-.28.168-.424.424-.424.776 0 .248.088.456.264.624.176.168.504.336.976.488l1.272.4c.648.208 1.12.496 1.408.864.288.368.424.784.424 1.24 0 .376-.08.72-.232 1.016-.16.296-.376.552-.656.76-.28.216-.616.376-1.008.488-.408.12-.84.176-1.304.176z"/></svg></div>
+        <div>
+          <div class="cert-name">AWS Academy Cloud Security Foundations</div>
+          <div class="cert-issuer">Amazon Web Services</div>
+          <div class="cert-year">2026</div>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon-wrap"><svg viewBox="0 0 24 24" width="22" height="22" fill="#F5A623"><path d="M12 1C8.676 1 6 3.676 6 7v1H4v15h16V8h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg></div>
+        <div>
+          <div class="cert-name">Diplomado en Ciberseguridad</div>
+          <div class="cert-issuer">UNACH</div>
+          <div class="cert-year">2026</div>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon-wrap"><svg viewBox="0 0 24 24" width="22" height="22" fill="#F5A623"><path d="M.5 15.2v-2.8c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v2.8c0 .2-.1.3-.3.3H.8c-.2 0-.3-.1-.3-.3zM3.6 16.8v-6c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v6c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3zM6.7 15.2v-2.8c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v2.8c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3zM9.8 17.8v-9.6c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v9.6c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3zM12.9 15.2v-2.8c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v2.8c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3zM16 16.8v-6c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v6c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3zM19.1 15.2v-2.8c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v2.8c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3zM22.2 17.8v-9.6c0-.2.1-.3.3-.3h.8c.2 0 .3.1.3.3v9.6c0 .2-.1.3-.3.3h-.8c-.2 0-.3-.1-.3-.3z"/></svg></div>
+        <div>
+          <div class="cert-name">CCNA: Switching, Routing and Wireless Essentials</div>
+          <div class="cert-issuer">Cisco</div>
+          <div class="cert-year">2025</div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line"></div>
+      <span class="section-eyebrow-text">Contacto</span>
+    </div>
+    <h2 class="section-title">Hablemos</h2>
+
+    <div class="contact-layout">
+      <div>
+        <p class="contact-intro">Estoy en búsqueda activa de oportunidades como Desarrollador de Software Junior. Abierto a trabajo presencial, híbrido o 100% remoto en cualquier parte del mundo. Si tienes un proyecto interesante o una vacante que haga match, escríbeme.</p>
+        <div class="contact-links">
+          <a href="mailto:danielscastles@gmail.com" class="contact-link">
+            <span class="contact-link-icon">✉</span> danielscastles@gmail.com
+          </a>
+          <a href="https://github.com/DanCastl3" target="_blank" class="contact-link">
+            <span class="contact-link-icon">◈</span> github.com/DanCastl3
+          </a>
+          <a href="https://www.linkedin.com/in/daniel-hernandez-castillo-" target="_blank" class="contact-link">
+            <span class="contact-link-icon">in</span> linkedin.com/in/daniel-hernandez-castillo
+          </a>
+          <a href="tel:+529661270292" class="contact-link">
+            <span class="contact-link-icon">☎</span> +52 966 127 0292
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-aside fade-in">
+        <div class="availability-card">
+          <span class="availability-dot">Disponible</span>
+          <div class="availability-title">Listo para incorporarme</div>
+          <div class="availability-sub">Disponibilidad inmediata para empleo de tiempo completo, presencial o remoto.</div>
+        </div>
+        <a href="#projects" class="btn btn-primary" style="width:100%; justify-content:center;">Ver proyectos →</a>
+      </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Daniel Hernandez Castillo</span>
+  <span class="footer-copy">TUXTLA GUTIÉRREZ, CHIAPAS, MÉXICO · 2026</span>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
